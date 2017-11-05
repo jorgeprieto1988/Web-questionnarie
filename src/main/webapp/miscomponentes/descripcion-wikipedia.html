@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<link rel="import"  href="../polymer.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<dom-module name="descripcion-wikipedia">
+
+  <script>
+    Polymer({
+      is: "descripcion-wikipedia",
+	  properties: {
+        tema:{
+		type:String
+		},
+        descripcion: {
+          type: String,
+          readOnly:false,
+		  notify:true
+        }
+		},
+		ready: function(){	
+		var comp = this;
+		comp.descripcion = "";
+		var call = "https://es.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&continue&titles="+ comp.tema +"&callback=?";
+			$.getJSON(call, function (data) {
+			$.each(data.query.pages, function(key) {
+				comp.descripcion =  comp.descripcion +"\n" + data.query.pages[key].extract;
+			});
+			});
+		}
+    });
+  </script>
+
+</dom-module>

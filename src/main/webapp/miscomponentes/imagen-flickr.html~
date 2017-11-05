@@ -1,0 +1,56 @@
+<link rel="import"  href="https://polygit2.appspot.com/components/polymer/polymer.html">
+<link rel="import" href="encabezado-cuestionario.html">
+<dom-module id="imagen-flickr">
+
+  <script>
+    Polymer({
+      is: "imagen-flickr"
+properties: {
+        tema:{
+		type:String
+		},
+        url: {
+          type: String,
+          readOnly:false,
+		  notify:true
+        }
+		},
+		ready: function(){
+		var comp = this;
+			var mykey = "174b6255ff8c83563373a8218cf5c728";
+
+			var reply = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key="
+			+mykey 
+			+"&text="+ comp.tema +"&format=json&per_page=10&media=photos&sort=relevance&nojsoncallback=1"; 			
+
+			$.getJSON(reply, function (data) {
+				if(data.photos.total == "0")
+				{
+					comp.url = "http://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57723/globe_east_540.jpg";
+				}
+				else
+				{
+					var response = "https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key="
+					+ mykey 
+					+"&photo_id="+data.photos.photo[0].id +"&format=json&nojsoncallback=1";
+					$.getJSON(response,function(img)
+					{
+						if(img.stat == "fail")
+						{			
+							comp.url = "http://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57723/globe_east_540.jpg";
+						}
+						else
+						{
+							comp.url = img.sizes.size[0].source;
+
+						}
+					})
+				}
+	
+			});
+}
+
+    });
+  </script>
+
+</dom-module>

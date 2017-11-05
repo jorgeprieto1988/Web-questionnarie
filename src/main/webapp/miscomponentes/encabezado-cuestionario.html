@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<link rel="import"  href="../polymer.html">
+<link rel="import" href="descripcion-wikipedia.html">
+<link rel="import" href="imagen-flickr.html">
+<dom-module name="encabezado-cuestionario" attributes="tema">
+
+  <template>
+    <style>
+		img{
+		vertical-align: text-top;
+		height: 50px;
+		width: 50px;
+		margin-right: 10px;
+		border: 1px;
+		border-style: solid;
+		border-color: lightgray; 
+		}
+		
+		h2{
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.wiki{
+  font-size: 90%;
+}
+    </style>
+	
+	<h2>
+	<imagen-flickr tema={{tema}} url={{url}}></imagen-flickr>
+	<img src={{url}} alt="foto {{tema}}">Cuestionario sobre {{tema}}
+	</h2>
+	<descripcion-wikipedia tema={{tema}} descripcion={{descripcion}}></descripcion-wikipedia>
+	<div class="wiki">{{descripcion}}</div>
+  </template>
+
+  <script>
+    Polymer({
+      is: "encabezado-cuestionario",
+	  properties: {
+        tema:{
+		type:String
+		},
+        descripcion: {
+          type: String,
+          readOnly:false,
+		  notify:true
+        },
+	url: {
+          type: String,
+          readOnly:false,
+		  notify:true
+        }
+		}
+    });
+  </script>
+
+</dom-module>
